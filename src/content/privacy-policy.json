@@ -1,0 +1,41 @@
+{
+  "lastUpdated": "May 14, 2026",
+  "sections": [
+    {
+      "heading": "Summary",
+      "paragraphs": [
+        "Don't Text Him is designed to work on your device without an account. We do not sell your personal information. Preferences and progress are stored only on your device."
+      ]
+    },
+    {
+      "heading": "Information we process",
+      "paragraphs": [
+        "The app may store locally on your phone: whether you have completed the intro flow, your selected situation category, and which quotes you have seen in the current session (for variety). This data stays on your device and is not transmitted to our servers by the app itself."
+      ]
+    },
+    {
+      "heading": "Analytics and third parties",
+      "paragraphs": [
+        "The app does not include in-app advertising SDKs or social logins. Apple, Google, or other platform services involved in distributing or updating the app may process data according to their own policies."
+      ]
+    },
+    {
+      "heading": "Children",
+      "paragraphs": [
+        "The app is not directed at children under 13, and we do not knowingly collect personal information from children."
+      ]
+    },
+    {
+      "heading": "Changes",
+      "paragraphs": [
+        "We may update this policy from time to time. The \"Last updated\" date at the top will change when we do."
+      ]
+    },
+    {
+      "heading": "Contact",
+      "paragraphs": [
+        "For privacy questions, email {{supportEmail}} or use the contact information on the app store listing."
+      ]
+    }
+  ]
+}

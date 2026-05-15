@@ -1,10 +1,33 @@
-import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Linking, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import privacy from '../content/privacy-policy.json';
 import { SUPPORT_EMAIL } from '../config/appStore';
 import { colors, radius, spacing } from '../theme';
 
 type Props = {
   onBack: () => void;
 };
+
+function fillSupportEmail(text: string) {
+  return text.replace(/\{\{supportEmail\}\}/g, SUPPORT_EMAIL);
+}
+
+function PolicyParagraph({ text }: { text: string }) {
+  const filled = fillSupportEmail(text);
+  if (!filled.includes(SUPPORT_EMAIL)) {
+    return <Text style={styles.p}>{filled}</Text>;
+  }
+  const parts = filled.split(SUPPORT_EMAIL);
+  const mailto = `mailto:${SUPPORT_EMAIL}?subject=${encodeURIComponent("Don\u0027t Text Him \u2014 privacy")}`;
+  return (
+    <Text style={styles.p}>
+      {parts[0]}
+      <Text style={styles.inlineLink} onPress={() => void Linking.openURL(mailto)}>
+        {SUPPORT_EMAIL}
+      </Text>
+      {parts.slice(1).join(SUPPORT_EMAIL)}
+    </Text>
+  );
+}
 
 export function PrivacyPolicyScreen({ onBack }: Props) {
   return (
@@ -16,36 +39,15 @@ export function PrivacyPolicyScreen({ onBack }: Props) {
       </View>
       <Text style={styles.title}>Privacy policy</Text>
       <ScrollView style={styles.scroll} contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
-        <Text style={styles.p}>Last updated: May 14, 2026</Text>
-        <Text style={styles.h2}>Summary</Text>
-        <Text style={styles.p}>
-          {"Don't Text Him"} is designed to work on your device without an account. We do not sell your personal
-          information. Preferences and progress are stored only on your device.
-        </Text>
-        <Text style={styles.h2}>Information we process</Text>
-        <Text style={styles.p}>
-          The app may store locally on your phone: whether you have completed the intro flow, your selected situation
-          category, and which quotes you have seen in the current session (for variety). This data stays on your device
-          and is not transmitted to our servers by the app itself.
-        </Text>
-        <Text style={styles.h2}>Analytics and third parties</Text>
-        <Text style={styles.p}>
-          The app does not include in-app advertising SDKs or social logins. Apple, Google, or other platform services
-          involved in distributing or updating the app may process data according to their own policies.
-        </Text>
-        <Text style={styles.h2}>Children</Text>
-        <Text style={styles.p}>
-          The app is not directed at children under 13, and we do not knowingly collect personal information from
-          children.
-        </Text>
-        <Text style={styles.h2}>Changes</Text>
-        <Text style={styles.p}>
-          We may update this policy from time to time. The “Last updated” date at the top will change when we do.
-        </Text>
-        <Text style={styles.h2}>Contact</Text>
-        <Text style={styles.p}>
-          For privacy questions, email {SUPPORT_EMAIL} or use the contact information on the app store listing.
-        </Text>
+        <Text style={styles.p}>Last updated: {privacy.lastUpdated}</Text>
+        {privacy.sections.map((section) => (
+          <View key={section.heading}>
+            <Text style={styles.h2}>{section.heading}</Text>
+            {section.paragraphs.map((paragraph, i) => (
+              <PolicyParagraph key={`${section.heading}-${i}`} text={paragraph} />
+            ))}
+          </View>
+        ))}
       </ScrollView>
     </View>
   );
@@ -92,5 +94,11 @@ const styles = StyleSheet.create({
     fontSize: 15,
     lineHeight: 22,
     marginBottom: spacing.sm,
+  },
+  inlineLink: {
+    color: colors.accent,
+    fontSize: 15,
+    fontWeight: '600',
+    lineHeight: 22,
   },
 });

@@ -1,0 +1,6 @@
+# Lean EAS upload (defaults already ignore node_modules)
+.git
+**/__tests__/**
+**/*.test.ts
+**/*.test.tsx
+coverage

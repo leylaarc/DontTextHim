@@ -1,0 +1,15 @@
+diff --git a/node_modules/expo-widgets/scripts/autolinking.rb b/node_modules/expo-widgets/scripts/autolinking.rb
+index 9f8531d..6355bc4 100644
+--- a/node_modules/expo-widgets/scripts/autolinking.rb
++++ b/node_modules/expo-widgets/scripts/autolinking.rb
+@@ -6,7 +6,9 @@ require File.join(File.dirname(`node --print "require.resolve('expo-modules-auto
+ require File.join(File.dirname(`node --print "require.resolve('react-native/package.json')"`), "scripts/react_native_pods")
+ 
+ def use_expo_modules_widgets!(options = {})
+-  output = Expo::AutolinkingManager.new(self, @current_target_definition, options).resolve
++  # `resolve` is private on Expo::AutolinkingManager in expo-modules-autolinking 3.x; use `send` to read JSON once.
++  manager = Expo::AutolinkingManager.new(self, @current_target_definition, options)
++  output = manager.send(:resolve)
+ 
+   all_packages = output["modules"].map { |mod| mod["packageName"] }
+   used_packages = ["expo", "expo-widgets", "@expo/ui"]

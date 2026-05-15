@@ -2,8 +2,19 @@
 export const SUPPORT_EMAIL = 'support@donttexthim.app';
 
 /**
- * Public privacy policy URL for App Store Connect (must be https and open in a browser).
- * Free option: enable GitHub Pages on this repo (Source: `/docs` branch or folder) so
- * `docs/privacy.html` is served at this path — no custom domain required.
+ * Public privacy policy URL (App Store Connect, etc.). Must open in a normal browser.
+ *
+ * Override at build time if your GitHub username/repo differs from the default:
+ *   EXPO_PUBLIC_PRIVACY_POLICY_URL=https://YOURUSER.github.io/YOUR-REPO/privacy.html
+ *
+ * GitHub Pages checklist (otherwise this URL 404s):
+ * 1. Repo exists on GitHub and `docs/privacy.html` is on the default branch (e.g. `main`).
+ *    Policy text lives in `src/content/privacy-policy.json`; run `npm run privacy:html` after edits to refresh `docs/privacy.html`.
+ * 2. Repo → Settings → Pages → Build: Deploy from branch → branch `main`, folder `/docs` → Save.
+ * 3. For free hosting the repo is usually **public** (private + Pages may need a paid plan).
+ * 4. Wait 1–5 minutes, then open the URL in an incognito window.
  */
-export const PRIVACY_POLICY_URL = 'https://leylaarc.github.io/DontTextHim/privacy.html';
+const DEFAULT_PRIVACY_POLICY_URL = 'https://leylaarc.github.io/DontTextHim/privacy.html';
+
+const fromEnv = process.env.EXPO_PUBLIC_PRIVACY_POLICY_URL?.trim();
+export const PRIVACY_POLICY_URL = fromEnv || DEFAULT_PRIVACY_POLICY_URL;

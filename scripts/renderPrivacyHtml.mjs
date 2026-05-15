@@ -1,4 +1,45 @@
-<!DOCTYPE html>
+import { readFileSync, writeFileSync } from 'node:fs';
+import { dirname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const root = join(dirname(fileURLToPath(import.meta.url)), '..');
+
+function readSupportEmail() {
+  const appStorePath = join(root, 'src/config/appStore.ts');
+  const src = readFileSync(appStorePath, 'utf8');
+  const m = src.match(/export const SUPPORT_EMAIL = '([^']+)'/);
+  return m?.[1] ?? 'support@donttexthim.app';
+}
+
+function escHtml(s) {
+  return s
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+const supportEmail = readSupportEmail();
+const data = JSON.parse(readFileSync(join(root, 'src/content/privacy-policy.json'), 'utf8'));
+
+const subject = encodeURIComponent("Don\u0027t Text Him \u2014 privacy");
+const mailHref = `mailto:${supportEmail}?subject=${subject}`;
+
+let sectionsHtml = '';
+for (const sec of data.sections) {
+  sectionsHtml += `      <h2>${escHtml(sec.heading)}</h2>\n`;
+  for (const raw of sec.paragraphs) {
+    if (raw.includes('{{supportEmail}}')) {
+      const [before, after] = raw.split('{{supportEmail}}');
+      const link = `<a href="${escHtml(mailHref)}">${escHtml(supportEmail)}</a>`;
+      sectionsHtml += `      <p>${escHtml(before)}${link}${escHtml(after ?? '')}</p>\n`;
+    } else {
+      sectionsHtml += `      <p>${escHtml(raw)}</p>\n`;
+    }
+  }
+}
+
+const html = `<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
@@ -67,24 +108,16 @@
   <body>
     <main>
       <h1>Privacy policy</h1>
-      <p class="updated">Last updated: May 14, 2026</p>
+      <p class="updated">Last updated: ${escHtml(data.lastUpdated)}</p>
 
-      <h2>Summary</h2>
-      <p>Don't Text Him is designed to work on your device without an account. We do not sell your personal information. Preferences and progress are stored only on your device.</p>
-      <h2>Information we process</h2>
-      <p>The app may store locally on your phone: whether you have completed the intro flow, your selected situation category, and which quotes you have seen in the current session (for variety). This data stays on your device and is not transmitted to our servers by the app itself.</p>
-      <h2>Analytics and third parties</h2>
-      <p>The app does not include in-app advertising SDKs or social logins. Apple, Google, or other platform services involved in distributing or updating the app may process data according to their own policies.</p>
-      <h2>Children</h2>
-      <p>The app is not directed at children under 13, and we do not knowingly collect personal information from children.</p>
-      <h2>Changes</h2>
-      <p>We may update this policy from time to time. The &quot;Last updated&quot; date at the top will change when we do.</p>
-      <h2>Contact</h2>
-      <p>For privacy questions, email <a href="mailto:support@donttexthim.app?subject=Don't%20Text%20Him%20%E2%80%94%20privacy">support@donttexthim.app</a> or use the contact information on the app store listing.</p>
-
+${sectionsHtml}
       <footer>
         Don&#39;t Text Him &middot; Same policy as in the app.
       </footer>
     </main>
   </body>
 </html>
+`;
+
+writeFileSync(join(root, 'docs/privacy.html'), html, 'utf8');
+console.log('Wrote docs/privacy.html from src/content/privacy-policy.json');
