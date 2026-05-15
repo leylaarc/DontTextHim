@@ -11,6 +11,7 @@
     "privacy:html": "node scripts/renderPrivacyHtml.mjs",
     "postinstall": "patch-package",
     "prebuild": "expo prebuild && node scripts/fixExpoWidgetsXcodePaths.mjs",
+    "eas-build-post-install": "node scripts/fixExpoWidgetsXcodePaths.mjs",
     "build:ios": "npx eas-cli build --platform ios --profile production",
     "build:android": "npx eas-cli build --platform android --profile production",
     "build:preview:android": "npx eas-cli build --platform android --profile preview",

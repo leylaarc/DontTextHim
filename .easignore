@@ -1,5 +1,7 @@
 # Lean EAS upload (defaults already ignore node_modules)
 .git
+/ios
+/android
 **/__tests__/**
 **/*.test.ts
 **/*.test.tsx

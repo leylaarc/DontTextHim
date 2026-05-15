@@ -22,7 +22,7 @@
       "channel": "production",
       "autoIncrement": true,
       "ios": {
-        "prebuildCommand": "npx expo prebuild --platform ios --clean && node scripts/fixExpoWidgetsXcodePaths.mjs"
+        "prebuildCommand": "npx expo prebuild --platform ios --clean"
       }
     }
   },
