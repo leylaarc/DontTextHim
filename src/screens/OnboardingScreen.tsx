@@ -12,7 +12,7 @@ export function OnboardingScreen({ onDone }: Props) {
       <Text style={styles.title}>Pause before you send.</Text>
       <Text style={styles.body}>
         This is a tiny pocket of friction between impulse and action. When you want to text him, open this instead—read
-        one reminder, breathe, then decide with a clearer head.
+        one reminder, breathe, or paste the draft in Unsent text and hear why it can stay unsent.
       </Text>
       <Pressable style={({ pressed }) => [styles.button, pressed && styles.buttonPressed]} onPress={onDone}>
         <Text style={styles.buttonLabel}>Continue</Text>

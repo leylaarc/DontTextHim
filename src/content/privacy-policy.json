@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "May 14, 2026",
+  "lastUpdated": "May 15, 2026",
   "sections": [
     {
       "heading": "Summary",
@@ -10,7 +10,13 @@
     {
       "heading": "Information we process",
       "paragraphs": [
-        "The app may store locally on your phone: whether you have completed the intro flow, your selected situation category, and which quotes you have seen in the current session (for variety). This data stays on your device and is not transmitted to our servers by the app itself."
+        "The app may store locally on your phone: whether you have completed the intro flow, your selected situation category, which quotes you have seen in the current session (for variety), and drafts you save in the Unsent texts section (including any perspective shown for that draft). This data stays on your device unless you use the optional AI coach described below."
+      ]
+    },
+    {
+      "heading": "Optional AI perspective",
+      "paragraphs": [
+        "If your app build is connected to a coach API, the text you paste in Unsent texts and your situation label may be sent to that service to generate a short perspective. We do not use that content for advertising. If no coach API is configured, perspective is generated on your device only and nothing is sent over the network for that feature."
       ]
     },
     {

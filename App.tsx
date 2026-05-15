@@ -8,9 +8,10 @@ import { OnboardingScreen } from './src/screens/OnboardingScreen';
 import { HomeScreen } from './src/screens/HomeScreen';
 import { PrivacyPolicyScreen } from './src/screens/PrivacyPolicyScreen';
 import { SettingsScreen } from './src/screens/SettingsScreen';
+import { UnsentTextScreen } from './src/screens/UnsentTextScreen';
 import { colors } from './src/theme';
 
-type MainScreen = 'home' | 'settings' | 'privacy';
+type MainScreen = 'home' | 'settings' | 'privacy' | 'unsent';
 
 function AppContent() {
   const [categoryKey, setCategoryKey] = useState(0);
@@ -81,9 +82,22 @@ function AppContent() {
     );
   }
 
+  if (main === 'unsent') {
+    return (
+      <>
+        <UnsentTextScreen onBack={() => setMain('home')} />
+        <StatusBar style="dark" />
+      </>
+    );
+  }
+
   return (
     <>
-      <HomeScreen categoryKey={categoryKey} onOpenSettings={() => setMain('settings')} />
+      <HomeScreen
+        categoryKey={categoryKey}
+        onOpenSettings={() => setMain('settings')}
+        onOpenUnsentText={() => setMain('unsent')}
+      />
       <StatusBar style="dark" />
     </>
   );

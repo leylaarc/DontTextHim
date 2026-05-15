@@ -21,11 +21,12 @@ import { colors, radius, spacing } from '../theme';
 
 type Props = {
   onOpenSettings: () => void;
+  onOpenUnsentText: () => void;
   /** Increment from parent to re-load category from storage (e.g. after Settings reset). */
   categoryKey: number;
 };
 
-export function HomeScreen({ onOpenSettings, categoryKey }: Props) {
+export function HomeScreen({ onOpenSettings, onOpenUnsentText, categoryKey }: Props) {
   const [ready, setReady] = useState(false);
   const [categoryId, setCategoryId] = useState<string | null>(null);
   const [card, setCard] = useState<Situation | null>(null);
@@ -192,6 +193,9 @@ export function HomeScreen({ onOpenSettings, categoryKey }: Props) {
         <View style={styles.header}>
           <Text style={styles.logo}>{"Don't Text Him"}</Text>
           <View style={styles.headerRight}>
+            <Pressable onPress={onOpenUnsentText} hitSlop={10} style={({ pressed }) => pressed && styles.linkPressed}>
+              <Text style={styles.link}>Unsent text</Text>
+            </Pressable>
             <Pressable onPress={changeSituation} hitSlop={10} style={({ pressed }) => pressed && styles.linkPressed}>
               <Text style={styles.link}>Situation</Text>
             </Pressable>
@@ -227,6 +231,15 @@ export function HomeScreen({ onOpenSettings, categoryKey }: Props) {
             </Pressable>
           ) : null}
           <View style={styles.actions}>
+            <Pressable
+              style={({ pressed }) => [styles.unsentCta, pressed && styles.unsentCtaPressed]}
+              onPress={onOpenUnsentText}
+              accessibilityRole="button"
+              accessibilityLabel="Open unsent text — type your draft instead of sending"
+            >
+              <Text style={styles.unsentCtaText}>Type what you almost sent</Text>
+              <Text style={styles.unsentCtaHint}>Get perspective before you hit send</Text>
+            </Pressable>
             <Pressable
               style={({ pressed }) => [styles.primary, pressed && styles.primaryPressed]}
               onPress={resistedWithConfetti}
@@ -370,6 +383,31 @@ const styles = StyleSheet.create({
   actions: {
     gap: spacing.sm,
     paddingBottom: spacing.sm,
+  },
+  unsentCta: {
+    borderWidth: 1,
+    borderColor: colors.border,
+    backgroundColor: colors.surface,
+    borderRadius: radius.md,
+    paddingVertical: spacing.md,
+    paddingHorizontal: spacing.md,
+    alignItems: 'center',
+  },
+  unsentCtaPressed: {
+    opacity: 0.92,
+    borderColor: colors.accent,
+  },
+  unsentCtaText: {
+    color: colors.text,
+    fontSize: 16,
+    fontWeight: '700',
+  },
+  unsentCtaHint: {
+    marginTop: spacing.xs,
+    color: colors.textMuted,
+    fontSize: 13,
+    lineHeight: 18,
+    textAlign: 'center',
   },
   primary: {
     backgroundColor: colors.accentDeep,

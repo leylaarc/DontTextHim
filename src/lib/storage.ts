@@ -1,6 +1,8 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { clearAllQuoteDecks } from './quoteDeck';
 
+const UNSENT_TEXTS_KEY = '@dth/unsent_texts';
+
 const ONBOARDING_KEY = '@dth/onboarding_done';
 const CATEGORY_KEY = '@dth/selected_category';
 
@@ -28,5 +30,6 @@ export async function setOnboardingComplete(): Promise<void> {
 export async function resetOnboarding(): Promise<void> {
   await AsyncStorage.removeItem(ONBOARDING_KEY);
   await AsyncStorage.removeItem(CATEGORY_KEY);
+  await AsyncStorage.removeItem(UNSENT_TEXTS_KEY);
   await clearAllQuoteDecks();
 }
