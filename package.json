@@ -1,22 +1,40 @@
 {
   "name": "donttexthim",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "index.ts",
   "scripts": {
     "start": "expo start",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
-    "web": "expo start --web"
+    "android": "expo run:android",
+    "ios": "expo run:ios",
+    "web": "expo start --web",
+    "lint": "tsc --noEmit",
+    "privacy:html": "node scripts/renderPrivacyHtml.mjs",
+    "postinstall": "patch-package",
+    "prebuild": "expo prebuild && node scripts/fixExpoWidgetsXcodePaths.mjs",
+    "build:ios": "npx eas-cli build --platform ios --profile production",
+    "build:android": "npx eas-cli build --platform android --profile production",
+    "build:preview:android": "npx eas-cli build --platform android --profile preview",
+    "submit:ios": "npx eas-cli submit --platform ios --profile production --latest",
+    "submit:android": "npx eas-cli submit --platform android --profile production --latest"
   },
   "dependencies": {
-    "expo": "~54.0.33",
-    "expo-status-bar": "~3.0.9",
-    "react": "19.1.0",
-    "react-native": "0.81.5"
+    "@expo/ui": "55.0.16",
+    "@react-native-async-storage/async-storage": "2.2.0",
+    "expo": "~55.0.0",
+    "expo-status-bar": "~55.0.6",
+    "expo-updates": "~55.0.22",
+    "expo-widgets": "^55.0.18",
+    "react": "19.2.0",
+    "react-native": "0.83.6",
+    "react-native-safe-area-context": "~5.6.2"
   },
   "devDependencies": {
-    "@types/react": "~19.1.0",
+    "@types/react": "~19.2.10",
+    "patch-package": "^8.0.1",
     "typescript": "~5.9.2"
   },
-  "private": true
+  "private": true,
+  "engines": {
+    "node": ">=20.0.0"
+  }
 }
