@@ -9,7 +9,18 @@ import { fileURLToPath } from 'node:url';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const iosDir = join(root, 'ios');
-const pbxprojPath = join(iosDir, 'DontTextHim.xcodeproj/project.pbxproj');
+function resolvePbxprojPath() {
+  let entries;
+  try {
+    entries = readdirSync(iosDir);
+  } catch {
+    return null;
+  }
+  const xcodeproj = entries.find((name) => name.endsWith('.xcodeproj'));
+  return xcodeproj ? join(iosDir, xcodeproj, 'project.pbxproj') : null;
+}
+
+const pbxprojPath = resolvePbxprojPath();
 const podsConfigDir = join(iosDir, 'Pods/Target Support Files');
 const xcodeEnvLocalPath = join(iosDir, '.xcode.env.local');
 
@@ -36,6 +47,10 @@ function walkXcconfigs(dir) {
 }
 
 function fixWidgetPaths() {
+  if (!pbxprojPath) {
+    console.warn('fixIosEasPaths: no project.pbxproj — skip widget paths');
+    return;
+  }
   let src;
   try {
     src = readFileSync(pbxprojPath, 'utf8');

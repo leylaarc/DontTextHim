@@ -1,5 +1,5 @@
 import { Linking, Pressable, StyleSheet, Text, View } from 'react-native';
-import { SUPPORT_EMAIL } from '../config/appStore';
+import { APP_DISPLAY_NAME, SUPPORT_EMAIL } from '../config/appStore';
 import { colors, radius, spacing } from '../theme';
 
 type Props = {
@@ -10,7 +10,7 @@ type Props = {
 
 export function SettingsScreen({ onBack, onChangeSituation, onOpenPrivacy }: Props) {
   const openSupport = () => {
-    Linking.openURL(`mailto:${SUPPORT_EMAIL}?subject=${encodeURIComponent("Don't Text Him — support")}`);
+    Linking.openURL(`mailto:${SUPPORT_EMAIL}?subject=${encodeURIComponent(`${APP_DISPLAY_NAME} — support`)}`);
   };
 
   return (
@@ -27,7 +27,7 @@ export function SettingsScreen({ onBack, onChangeSituation, onOpenPrivacy }: Pro
           This is the system widget you add from the Home Screen widget gallery (long-press the Home Screen, tap +,
           search for Don&apos;t Text Him). It is not drawn inside the app. On the <Text style={styles.rowEm}>medium</Text>{' '}
           size, you can use <Text style={styles.rowEm}>Another quote</Text> and{' '}
-          <Text style={styles.rowEm}>I didn&apos;t text him</Text> on the widget itself (iOS 17+).{' '}
+          <Text style={styles.rowEm}>I didn&apos;t text them</Text> on the widget itself (iOS 17+).{' '}
           <Text style={styles.rowEm}>Small</Text> shows the quote; tap it to open the app. Quotes and deck stay in sync
           when you return to the app. Android home screen widgets are not available in this version.
         </Text>

@@ -3,6 +3,7 @@ import { ActivityIndicator, AppState, Platform, Pressable, StyleSheet, Text, Vie
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { AddWidgetInstructionsModal } from '../components/AddWidgetInstructionsModal';
 import { WhiteConfetti } from '../components/WhiteConfetti';
+import { APP_DISPLAY_NAME } from '../config/appStore';
 import { getMergedQuotesForCategoryId, situationAtQuoteIndex, type Situation } from '../data/situations';
 import { syncHomeScreenQuoteWidget } from '../lib/homeWidgetSync';
 import {
@@ -60,8 +61,13 @@ export function HomeScreen({ onOpenSettings, onOpenUnsentText, categoryKey }: Pr
   }, [categoryKey]);
 
   useEffect(() => {
-    if (!card || !categoryId) {
+    if (!categoryId) {
       syncHomeScreenQuoteWidget(null);
+      return;
+    }
+    // Avoid syncing placeholder while the quote card is still loading after `categoryId` is set
+    // (React can render between `setCategoryId` and `setCard` across async gaps).
+    if (!card) {
       return;
     }
     let cancelled = false;
@@ -191,7 +197,7 @@ export function HomeScreen({ onOpenSettings, onOpenUnsentText, categoryKey }: Pr
       <AddWidgetInstructionsModal visible={widgetHelpOpen} onClose={() => setWidgetHelpOpen(false)} />
       <View style={styles.root}>
         <View style={styles.header}>
-          <Text style={styles.logo}>{"Don't Text Him"}</Text>
+          <Text style={styles.logo}>{APP_DISPLAY_NAME}</Text>
           <View style={styles.headerRight}>
             <Pressable onPress={onOpenUnsentText} hitSlop={10} style={({ pressed }) => pressed && styles.linkPressed}>
               <Text style={styles.link}>Unsent text</Text>
@@ -206,7 +212,7 @@ export function HomeScreen({ onOpenSettings, onOpenUnsentText, categoryKey }: Pr
         </View>
 
         <View style={styles.centerBlock}>
-          <Text style={styles.brand}>{"Don't Text Him"}</Text>
+          <Text style={styles.brand}>{APP_DISPLAY_NAME}</Text>
           <View style={styles.card}>
             <Text style={styles.cardTitle}>{card.title}</Text>
             <Text style={styles.cardBody}>{card.body}</Text>
@@ -244,7 +250,7 @@ export function HomeScreen({ onOpenSettings, onOpenUnsentText, categoryKey }: Pr
               style={({ pressed }) => [styles.primary, pressed && styles.primaryPressed]}
               onPress={resistedWithConfetti}
             >
-              <Text style={styles.primaryLabel}>{"I didn't text him"}</Text>
+              <Text style={styles.primaryLabel}>{"I didn't text them"}</Text>
             </Pressable>
             <Pressable style={({ pressed }) => [styles.secondary, pressed && styles.secondaryPressed]} onPress={shuffle}>
               <Text style={styles.secondaryLabel}>Another quote in this situation</Text>

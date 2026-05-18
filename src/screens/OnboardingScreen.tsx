@@ -1,4 +1,5 @@
 import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { APP_DISPLAY_NAME } from '../config/appStore';
 import { colors, radius, spacing } from '../theme';
 
 type Props = {
@@ -8,7 +9,7 @@ type Props = {
 export function OnboardingScreen({ onDone }: Props) {
   return (
     <View style={styles.root}>
-      <Text style={styles.kicker}>{"Don't Text Him"}</Text>
+      <Text style={styles.kicker}>{APP_DISPLAY_NAME}</Text>
       <Text style={styles.title}>Pause before you send.</Text>
       <Text style={styles.body}>
         This is a tiny pocket of friction between impulse and action. When you want to text him, open this instead—read

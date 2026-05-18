@@ -1,0 +1,44 @@
+appId: com.donttexthim.app
+---
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible: "Pause before you send"
+    timeout: 120000
+- takeScreenshot: 01-onboarding
+- tapOn: Continue
+- extendedWaitUntil:
+    visible: "What fits closest?"
+    timeout: 20000
+- takeScreenshot: 02-situation-picker
+- tapOn: "Late-night impulse"
+- extendedWaitUntil:
+    visible: "I didn't text them"
+    timeout: 20000
+- takeScreenshot: 03-home-quote
+- tapOn: "Open unsent text — type your draft instead of sending"
+- extendedWaitUntil:
+    visible: "Type it here instead of sending it."
+    timeout: 15000
+- takeScreenshot: 04-unsent-empty
+- tapOn:
+    id: unsent-draft-input
+- inputText: "Hey. I know it's late. I just needed to hear your voice. Can we talk?"
+- hideKeyboard
+- tapOn: "Get perspective on this draft"
+- extendedWaitUntil:
+    visible: "Why not to send this"
+    timeout: 25000
+- takeScreenshot: 05-unsent-perspective
+- tapOn: "← Back"
+- tapOn: "How to add the Home Screen widget"
+- extendedWaitUntil:
+    visible: "Add to Home Screen"
+    timeout: 10000
+- takeScreenshot: 06-widget-instructions
+- tapOn: "Got it"
+- tapOn: "⚙︎"
+- extendedWaitUntil:
+    visible: Settings
+    timeout: 10000
+- takeScreenshot: 07-settings

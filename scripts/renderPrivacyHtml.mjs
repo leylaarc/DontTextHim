@@ -4,11 +4,13 @@ import { fileURLToPath } from 'node:url';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 
-function readSupportEmail() {
+function readAppStoreConfig() {
   const appStorePath = join(root, 'src/config/appStore.ts');
   const src = readFileSync(appStorePath, 'utf8');
-  const m = src.match(/export const SUPPORT_EMAIL = '([^']+)'/);
-  return m?.[1] ?? 'support@donttexthim.app';
+  const email = src.match(/export const SUPPORT_EMAIL = '([^']+)'/)?.[1] ?? 'support@donottextthem.com';
+  const displayName =
+    src.match(/export const APP_DISPLAY_NAME = "([^"]+)"/)?.[1] ?? "don't text them";
+  return { email, displayName };
 }
 
 function escHtml(s) {
@@ -19,11 +21,12 @@ function escHtml(s) {
     .replace(/"/g, '&quot;');
 }
 
-const supportEmail = readSupportEmail();
+const { email: supportEmail, displayName } = readAppStoreConfig();
 const data = JSON.parse(readFileSync(join(root, 'src/content/privacy-policy.json'), 'utf8'));
 
-const subject = encodeURIComponent("Don\u0027t Text Him \u2014 privacy");
+const subject = encodeURIComponent(`${displayName} \u2014 privacy`);
 const mailHref = `mailto:${supportEmail}?subject=${subject}`;
+const titleName = escHtml(displayName);
 
 let sectionsHtml = '';
 for (const sec of data.sections) {
@@ -44,7 +47,7 @@ const html = `<!DOCTYPE html>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Privacy policy — Don&#39;t Text Him</title>
+    <title>Privacy policy — ${titleName}</title>
     <style>
       :root {
         --bg: #fdf7f8;
@@ -112,7 +115,7 @@ const html = `<!DOCTYPE html>
 
 ${sectionsHtml}
       <footer>
-        Don&#39;t Text Him &middot; Same policy as in the app.
+        ${titleName} &middot; Same policy as in the app.
       </footer>
     </main>
   </body>

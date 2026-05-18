@@ -172,6 +172,7 @@ export function UnsentTextScreen({ onBack }: Props) {
           </Text>
 
           <TextInput
+            testID="unsent-draft-input"
             style={styles.input}
             value={draft}
             onChangeText={setDraft}

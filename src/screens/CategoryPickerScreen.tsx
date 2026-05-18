@@ -13,10 +13,6 @@ export function CategoryPickerScreen({ onSelectCategory }: Props) {
       <ScrollView contentContainerStyle={styles.scroll} showsVerticalScrollIndicator={false}>
         <Text style={styles.kicker}>Step one</Text>
         <Text style={styles.title}>What fits closest?</Text>
-        <Text style={styles.sub}>
-          Pick the situation that matches right now. Each lane has 100+ reminders; you will see every one once
-          before any line repeats. Change the situation anytime from the home screen.
-        </Text>
         {QUOTE_CATEGORIES.map((cat) => (
           <Pressable
             key={cat.id}
@@ -55,14 +51,8 @@ const styles = StyleSheet.create({
     color: colors.text,
     fontSize: 26,
     fontWeight: '700',
-    marginBottom: spacing.sm,
-    lineHeight: 32,
-  },
-  sub: {
-    color: colors.textMuted,
-    fontSize: 16,
-    lineHeight: 24,
     marginBottom: spacing.lg,
+    lineHeight: 32,
   },
   card: {
     backgroundColor: colors.surface,

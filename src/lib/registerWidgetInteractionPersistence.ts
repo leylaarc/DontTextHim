@@ -1,9 +1,7 @@
-import { Platform } from 'react-native';
-import { addUserInteractionListener } from 'expo-widgets';
-
 import { getMergedQuotesForCategoryId } from '../data/situations';
 import quoteWidget from '../widgets/quoteWidgetEntry';
 import type { QuoteWidgetProps } from '../widgets/quoteWidgetTypes';
+import { isExpoWidgetsAvailable } from './expoWidgetsAvailable';
 import { setDeckState } from './quoteDeck';
 
 /**
@@ -11,9 +9,17 @@ import { setDeckState } from './quoteDeck';
  * we mirror `order` / `pos` into AsyncStorage so the main app matches on next open.
  */
 export function registerWidgetInteractionPersistence(): () => void {
-  if (Platform.OS !== 'ios') {
+  if (!isExpoWidgetsAvailable()) {
     return () => {};
   }
+
+  let addUserInteractionListener: typeof import('expo-widgets').addUserInteractionListener;
+  try {
+    ({ addUserInteractionListener } = require('expo-widgets') as typeof import('expo-widgets'));
+  } catch {
+    return () => {};
+  }
+
   const sub = addUserInteractionListener(async () => {
     let timeline: { date: Date; props: QuoteWidgetProps }[];
     try {

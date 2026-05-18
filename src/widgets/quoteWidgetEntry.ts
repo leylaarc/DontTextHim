@@ -1,4 +1,4 @@
-import { NativeModules, Platform } from 'react-native';
+import { Platform } from 'react-native';
 
 import type { QuoteWidgetHandle, QuoteWidgetProps } from './quoteWidgetTypes';
 
@@ -11,8 +11,8 @@ const stub: QuoteWidgetHandle = {
 
 function load(): QuoteWidgetHandle {
   if (Platform.OS !== 'ios') return stub;
-  if (!(NativeModules as { ExpoWidgets?: unknown }).ExpoWidgets) return stub;
   try {
+    // Don't gate on NativeModules — wrong negatives strand Turbo Modules builds as stubs forever.
     return require('./QuoteWidget.ios').default as QuoteWidgetHandle;
   } catch {
     return stub;

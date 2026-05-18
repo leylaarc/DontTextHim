@@ -1,0 +1,6 @@
+{
+  "framework": null,
+  "buildCommand": "mkdir -p public && echo ok > public/.vercel-placeholder",
+  "outputDirectory": "public",
+  "rewrites": [{ "source": "/", "destination": "/index.html" }]
+}

@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "Don't Text Him",
+    "name": "don't text them",
     "slug": "dont-texthim",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "scheme": "donttexthim",
@@ -11,22 +11,23 @@
     "splash": {
       "image": "./assets/splash-icon.png",
       "resizeMode": "contain",
-      "backgroundColor": "#fdf7f8"
+      "backgroundColor": "#3d1219"
     },
     "ios": {
-      "supportsTablet": true,
+      "supportsTablet": false,
       "bundleIdentifier": "com.donttexthim.app",
-      "buildNumber": "10",
+      "buildNumber": "17",
       "infoPlist": {
+        "CFBundleDisplayName": "don't text them",
         "ITSAppUsesNonExemptEncryption": false
       }
     },
     "android": {
       "package": "com.donttexthim.app",
-      "versionCode": 2,
+      "versionCode": 3,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#fdf7f8"
+        "backgroundColor": "#3d1219"
       },
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false
@@ -41,7 +42,7 @@
       }
     },
     "owner": "leylaarc",
-    "runtimeVersion": "1.0.1",
+    "runtimeVersion": "1.0.2",
     "updates": {
       "url": "https://u.expo.dev/cc5e7a53-029a-4955-a67d-9680af351bcc"
     },
@@ -54,7 +55,7 @@
           "widgets": [
             {
               "name": "QuoteWidget",
-              "displayName": "Don't Text Him",
+              "displayName": "don't text them",
               "description": "Your reminder quote on the Home Screen.",
               "supportedFamilies": [
                 "systemSmall",

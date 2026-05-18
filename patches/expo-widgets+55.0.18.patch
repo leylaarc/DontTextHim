@@ -1,15 +1,108 @@
-diff --git a/node_modules/expo-widgets/scripts/autolinking.rb b/node_modules/expo-widgets/scripts/autolinking.rb
-index 9f8531d..6355bc4 100644
---- a/node_modules/expo-widgets/scripts/autolinking.rb
-+++ b/node_modules/expo-widgets/scripts/autolinking.rb
-@@ -6,7 +6,9 @@ require File.join(File.dirname(`node --print "require.resolve('expo-modules-auto
- require File.join(File.dirname(`node --print "require.resolve('react-native/package.json')"`), "scripts/react_native_pods")
+diff --git a/node_modules/expo-widgets/ios/WidgetObject.swift b/node_modules/expo-widgets/ios/WidgetObject.swift
+index 2c4dfd0..503645e 100644
+--- a/node_modules/expo-widgets/ios/WidgetObject.swift
++++ b/node_modules/expo-widgets/ios/WidgetObject.swift
+@@ -13,14 +13,56 @@ final class WidgetObject: SharedObject {
+   }
  
- def use_expo_modules_widgets!(options = {})
--  output = Expo::AutolinkingManager.new(self, @current_target_definition, options).resolve
-+  # `resolve` is private on Expo::AutolinkingManager in expo-modules-autolinking 3.x; use `send` to read JSON once.
-+  manager = Expo::AutolinkingManager.new(self, @current_target_definition, options)
-+  output = manager.send(:resolve)
+   func updateTimeline(entries: [WidgetsJSTimelineEntry]) throws {
+-    if WidgetsStorage.getString(forKey: "__expo_widgets_\(name)_layout") == nil {
+-      throw UpdatedTimelineWithoutLayout(name)
+-    }
++    // Timeline must persist even when layout registration failed or was skipped (native-only widgets).
+     WidgetsStorage.set(entries.map { $0.toDictionary() }, forKey: "__expo_widgets_\(name)_timeline")
++    mirrorQuoteWidgetPlaintextKeys(entries: entries)
  
-   all_packages = output["modules"].map { |mod| mod["packageName"] }
-   used_packages = ["expo", "expo-widgets", "@expo/ui"]
+     self.reload()
+   }
+ 
++  /// Native SwiftUI widgets read plain strings reliably; nested timeline dictionaries can fail plist bridging across processes.
++  private func mirrorQuoteWidgetPlaintextKeys(entries: [WidgetsJSTimelineEntry]) {
++    guard name == "QuoteWidget" else { return }
++
++    let titleKey = "donttexthim_quote_title"
++    let bodyKey = "donttexthim_quote_body"
++    let affirmedKey = "donttexthim_quote_affirmed"
++
++    func clearMirroredKeys() {
++      WidgetsStorage.removeObject(forKey: titleKey)
++      WidgetsStorage.removeObject(forKey: bodyKey)
++      WidgetsStorage.removeObject(forKey: affirmedKey)
++    }
++
++    guard let props = entries.first?.props else {
++      clearMirroredKeys()
++      return
++    }
++
++    func pickString(_ key: String) -> String? {
++      if let s = props[key] as? String { return s }
++      if let s = props[key] as? NSString { return s as String }
++      return nil
++    }
++
++    guard let title = pickString("title"),
++          let body = pickString("body"),
++          !title.isEmpty,
++          !body.isEmpty else {
++      clearMirroredKeys()
++      return
++    }
++
++    WidgetsStorage.set(title, forKey: titleKey)
++    WidgetsStorage.set(body, forKey: bodyKey)
++
++    if let affirmed = pickString("affirmedLine"), !affirmed.isEmpty {
++      WidgetsStorage.set(affirmed, forKey: affirmedKey)
++    } else {
++      WidgetsStorage.removeObject(forKey: affirmedKey)
++    }
++  }
++
+   func getTimeline() throws -> [WidgetsJSTimelineEntry] {
+     guard let entries = WidgetsStorage.getArray(forKey: "__expo_widgets_\(name)_timeline") as? [[String: Any]],
+           let appContext else {
+diff --git a/node_modules/expo-widgets/ios/Widgets/EntryView.swift b/node_modules/expo-widgets/ios/Widgets/EntryView.swift
+index 947fc2e..416872e 100644
+--- a/node_modules/expo-widgets/ios/Widgets/EntryView.swift
++++ b/node_modules/expo-widgets/ios/Widgets/EntryView.swift
+@@ -28,15 +28,33 @@ public struct WidgetsEntryView: View {
+     let layout = WidgetsStorage.getString(forKey: "__expo_widgets_\(entry.name)_layout") ?? ""
+     let node = evaluateLayout(layout: layout, props: entry.props ?? [:], environment: widgetEnvironment)
+ 
+-    if let node {
+-      if #available(iOS 17.0, *) {
+-        WidgetsDynamicView(name: entry.name, kind: .widget, node: node, entryIndex: entry.entryIndex, environmentString: widgetEnvironmentString)
+-          .containerBackground(.clear, for: .widget)
++    Group {
++      if let node {
++        WidgetsDynamicView(
++          name: entry.name,
++          kind: .widget,
++          node: node,
++          entryIndex: entry.entryIndex,
++          environmentString: widgetEnvironmentString
++        )
+       } else {
+-        WidgetsDynamicView(name: entry.name, kind: .widget, node: node, entryIndex: entry.entryIndex, environmentString: widgetEnvironmentString)
++        Color(red: 0.98, green: 0.957, blue: 0.961)
++          .frame(maxWidth: .infinity, maxHeight: .infinity)
++      }
++    }
++    .modifier(ExpoWidgetsEntryContainerBackgroundModifier())
++  }
++}
++
++/// iOS 17+ requires `containerBackground(for: .widget)` on the widget root; it must cover every branch (including empty layout).
++private struct ExpoWidgetsEntryContainerBackgroundModifier: ViewModifier {
++  func body(content: Content) -> some View {
++    if #available(iOSApplicationExtension 17.0, *) {
++      content.containerBackground(for: .widget) {
++        Color(red: 0.98, green: 0.957, blue: 0.961)
+       }
+     } else {
+-      EmptyView()
++      content
+     }
+   }
+ }

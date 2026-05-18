@@ -21,9 +21,7 @@ export async function coachUnsentText(input: CoachRequest): Promise<CoachResult>
   }
 
   if (COACH_API_URL) {
-    const llm = await coachViaApi({ draft, situationLabel: input.situationLabel });
-    if (llm) return llm;
-    throw new Error('Could not reach the AI coach. Check your connection and try again.');
+    return coachViaApi({ draft, situationLabel: input.situationLabel });
   }
 
   return {
@@ -32,7 +30,7 @@ export async function coachUnsentText(input: CoachRequest): Promise<CoachResult>
   };
 }
 
-async function coachViaApi(input: CoachRequest): Promise<CoachResult | null> {
+async function coachViaApi(input: CoachRequest): Promise<CoachResult> {
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
 
@@ -47,13 +45,41 @@ async function coachViaApi(input: CoachRequest): Promise<CoachResult | null> {
       signal: controller.signal,
     });
 
-    if (!res.ok) return null;
+    let data: { advice?: string; error?: string } = {};
+    try {
+      data = (await res.json()) as { advice?: string; error?: string };
+    } catch {
+      /* non-JSON body */
+    }
 
-    const data = (await res.json()) as { advice?: string };
+    if (res.status === 503) {
+      throw new Error(
+        'AI coach is not set up on the server yet. In Vercel, add OPENAI_API_KEY under Environment Variables, then redeploy.',
+      );
+    }
+
+    if (res.status === 502) {
+      throw new Error(
+        'OpenAI rejected the request. In Vercel, check OPENAI_API_KEY is correct and billing is active on platform.openai.com, then redeploy.',
+      );
+    }
+
+    if (!res.ok) {
+      throw new Error('Could not reach the AI coach. Check your internet connection and try again.');
+    }
+
     const advice = typeof data.advice === 'string' ? data.advice.trim() : '';
-    if (!advice) return null;
+    if (!advice) {
+      throw new Error('The AI coach returned an empty response. Try again in a moment.');
+    }
 
     return { advice, source: 'llm' };
+  } catch (e) {
+    if (e instanceof Error && e.name === 'AbortError') {
+      throw new Error('The AI coach took too long. Check your connection and try again.');
+    }
+    if (e instanceof Error) throw e;
+    throw new Error('Could not reach the AI coach. Check your connection and try again.');
   } finally {
     clearTimeout(timer);
   }

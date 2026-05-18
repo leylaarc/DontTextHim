@@ -1,6 +1,6 @@
 import { Linking, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import privacy from '../content/privacy-policy.json';
-import { SUPPORT_EMAIL } from '../config/appStore';
+import { APP_DISPLAY_NAME, SUPPORT_EMAIL } from '../config/appStore';
 import { colors, radius, spacing } from '../theme';
 
 type Props = {
@@ -17,7 +17,7 @@ function PolicyParagraph({ text }: { text: string }) {
     return <Text style={styles.p}>{filled}</Text>;
   }
   const parts = filled.split(SUPPORT_EMAIL);
-  const mailto = `mailto:${SUPPORT_EMAIL}?subject=${encodeURIComponent("Don\u0027t Text Him \u2014 privacy")}`;
+  const mailto = `mailto:${SUPPORT_EMAIL}?subject=${encodeURIComponent(`${APP_DISPLAY_NAME} \u2014 privacy`)}`;
   return (
     <Text style={styles.p}>
       {parts[0]}

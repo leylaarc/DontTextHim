@@ -1,4 +1,5 @@
 import { Modal, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { APP_DISPLAY_NAME } from '../config/appStore';
 import { colors, radius, spacing } from '../theme';
 
 type Props = {
@@ -17,7 +18,7 @@ const STEPS: { n: string; text: string }[] = [
   },
   {
     n: '3',
-    text: "Search **Don't Text Him**. Pick **Medium** for **Another quote** and **I didn't text him** on the widget (iOS 17+), or **Small** for the quote only—then **Add Widget**.",
+    text: `Search **${APP_DISPLAY_NAME}**. Pick **Medium** for **Another quote** and **I didn't text them** on the widget (iOS 17+), or **Small** for the quote only—then **Add Widget**.`,
   },
   {
     n: '4',

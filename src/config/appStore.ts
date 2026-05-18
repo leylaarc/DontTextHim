@@ -1,5 +1,14 @@
+/** Home Screen / App Store display name (matches `expo.name` in app.json). */
+export const APP_DISPLAY_NAME = "don't text them";
+
 /** Shown in Settings; use the same address in App Store Connect and Play Console. */
-export const SUPPORT_EMAIL = 'support@donttexthim.app';
+export const SUPPORT_EMAIL = 'support@donottextthem.com';
+
+/**
+ * Public support page (App Store Connect “Support URL”). Must open in a normal browser.
+ * Host via GitHub Pages (`docs/support.html`) or your own domain.
+ */
+export const SUPPORT_URL = 'https://leylaarc.github.io/DontTextHim/support.html';
 
 /**
  * Public privacy policy URL (App Store Connect, etc.). Must open in a normal browser.
