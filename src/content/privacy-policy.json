@@ -1,46 +1,121 @@
 {
-  "lastUpdated": "May 15, 2026",
+  "lastUpdated": "May 17, 2026",
   "sections": [
     {
       "heading": "Summary",
       "paragraphs": [
-        "Don't Text Him is designed to work on your device without an account. We do not sell your personal information. Preferences and progress are stored only on your device."
+        "don't text them (\"the App\") is operated by the developer listed on the App Store. The App works without an account. We do not sell your personal information, use it for cross-context behavioral advertising, or run in-app advertising or social-login SDKs.",
+        "Most information stays on your device. The only time content you type may leave your device is when you choose to request an online AI perspective, as described below."
       ]
     },
     {
-      "heading": "Information we process",
+      "heading": "Scope",
       "paragraphs": [
-        "The app may store locally on your phone: whether you have completed the intro flow, your selected situation category, which quotes you have seen in the current session (for variety), and drafts you save in the Unsent texts section (including any perspective shown for that draft). This data stays on your device unless you use the optional AI coach described below."
+        "This policy applies to the don't text them mobile application and the public support and privacy pages linked from the App or App Store listing. By using the App, you agree to this policy. If you do not agree, please do not use the App."
+      ]
+    },
+    {
+      "heading": "Information we do not collect",
+      "paragraphs": [
+        "We do not require you to create an account. The App does not ask for your name, email, phone number, contacts, photos, precise location, health records, or payment information within the App itself.",
+        "We do not use third-party analytics, crash-reporting, or advertising SDKs inside the App."
+      ]
+    },
+    {
+      "heading": "Information stored on your device",
+      "paragraphs": [
+        "The App stores the following locally on your phone using on-device storage (for example AsyncStorage and, on iPhone, shared storage used by the Home Screen widget): whether you completed the intro flow; your selected situation category; quote-deck state (such as order and position) so quotes do not repeat too often; optional timestamps when you mark a draft as resisted; and up to 40 entries in Unsent texts, including the draft text you enter and any on-device or saved perspective text.",
+        "This information is not uploaded to our servers by default. It remains on your device until you delete individual drafts, change or reset your situation, or remove the App. Uninstalling the App removes this on-device data subject to how your operating system handles app data."
+      ]
+    },
+    {
+      "heading": "iPhone Home Screen widget",
+      "paragraphs": [
+        "If you add the optional Home Screen widget, quote text and related deck state may be shared between the main App and the widget extension through Apple's App Group mechanism so the widget can display your reminder quote. That data stays on your device and is not sent to us for widget display.",
+        "Interactive widget actions (such as showing another quote) update on-device state. Android home screen widgets are not offered in this version."
       ]
     },
     {
       "heading": "Optional AI perspective",
       "paragraphs": [
-        "If your app build is connected to a coach API, the text you paste in Unsent texts and your situation label may be sent to that service to generate a short perspective. We do not use that content for advertising. If no coach API is configured, perspective is generated on your device only and nothing is sent over the network for that feature."
+        "When you tap to get a perspective on a draft, the App either generates guidance on your device only or, if your build includes an online coach endpoint, sends the draft text (up to 4,000 characters) and your situation label over HTTPS to that endpoint so a short perspective can be returned.",
+        "We do not use draft content for advertising or to build marketing profiles. We do not maintain a user-facing account database of your drafts on our servers. Our coach endpoint is designed to process each request and return a response without storing your draft in an application database; however, hosting and model providers (such as Vercel and OpenAI, when configured) may temporarily process or log data under their own policies and security programs.",
+        "If no online coach endpoint is configured for your build, perspective is generated entirely on your device and no network request is made for that feature.",
+        "Do not include passwords, financial details, government ID numbers, or information you are not comfortable sharing when using online perspective. You choose when to request perspective; you can use the App without requesting it."
       ]
     },
     {
-      "heading": "Analytics and third parties",
+      "heading": "App updates",
       "paragraphs": [
-        "The app does not include in-app advertising SDKs or social logins. Apple, Google, or other platform services involved in distributing or updating the app may process data according to their own policies."
+        "The App may check for and install over-the-air updates through Expo's update service (Expo Application Services). That process can involve technical information such as app version and device type needed to deliver compatible updates. See Expo's privacy documentation for how Expo handles that data."
       ]
     },
     {
-      "heading": "Children",
+      "heading": "How we use information",
       "paragraphs": [
-        "The app is not directed at children under 13, and we do not knowingly collect personal information from children."
+        "We use on-device information only to provide App features (quotes, drafts, widget sync, and settings). If you use online perspective, we use the content you submit for that request solely to generate and return the perspective, to operate and secure the service, and to comply with law."
       ]
     },
     {
-      "heading": "Changes",
+      "heading": "Legal bases (EEA, UK, and similar regions)",
       "paragraphs": [
-        "We may update this policy from time to time. The \"Last updated\" date at the top will change when we do."
+        "Where applicable privacy law requires a legal basis: we process on-device data to perform the App's core functions you request (contract / service delivery). For optional online perspective, we process what you submit based on your request when you initiate that feature (contract / steps at your direction). We may also rely on legitimate interests to operate, secure, and improve the App in a way that respects your privacy, such as preventing abuse of the coach endpoint."
+      ]
+    },
+    {
+      "heading": "Sharing and sale of information",
+      "paragraphs": [
+        "We do not sell or share personal information for cross-context behavioral advertising as those terms are commonly defined under U.S. state privacy laws.",
+        "We may share information only in these limited cases: (1) with service providers that help run optional online perspective or App updates (for example cloud hosting or an AI model provider), under instructions to process data only to provide the service; (2) with Apple, Google, or other platform providers when you obtain or update the App through their stores, subject to their policies; (3) if required by law, legal process, or to protect rights, safety, and security; or (4) in connection with a merger, acquisition, or asset sale, with notice where required by law.",
+        "We do not include in-app advertising SDKs or social logins."
+      ]
+    },
+    {
+      "heading": "Your choices and rights",
+      "paragraphs": [
+        "You can delete individual Unsent text drafts inside the App, change your situation category in Settings, or uninstall the App to remove on-device data.",
+        "Depending on where you live, you may have rights to access, correct, delete, or obtain a copy of personal information we hold about you, to opt out of certain processing, or to appeal a denial. Because we do not operate accounts and do not receive most App data on our servers, we often cannot access or delete on-device information for you—you control it on your phone. For online perspective requests, we generally do not retain copies tied to your identity after the response is delivered; contact us if you have a specific request.",
+        "California residents: we do not sell personal information. You may contact us to exercise rights under the California Consumer Privacy Act (CCPA) / California Privacy Rights Act (CPRA). We will not discriminate against you for exercising privacy rights.",
+        "EEA/UK residents: you may lodge a complaint with your local supervisory authority. Where required, you may also request restriction or object to certain processing.",
+        "To exercise rights or ask questions, email {{supportEmail}} with the subject line \"Privacy request\" and describe your request. We may need to verify your request where permitted by law."
+      ]
+    },
+    {
+      "heading": "Children's privacy",
+      "paragraphs": [
+        "The App is not directed to children under 13, and we do not knowingly collect personal information from children under 13. If you believe a child under 13 has provided personal information to us through online perspective or support email, contact {{supportEmail}} and we will take appropriate steps to delete it where we can."
+      ]
+    },
+    {
+      "heading": "Security and retention",
+      "paragraphs": [
+        "We use reasonable technical and organizational measures appropriate to the limited data we handle. No method of transmission or storage is completely secure.",
+        "On-device data is kept until you delete it or remove the App. Online perspective requests are processed transiently for the purpose of the response; we do not design the coach endpoint to keep a long-term archive of your drafts."
+      ]
+    },
+    {
+      "heading": "International transfers",
+      "paragraphs": [
+        "If you use optional online perspective, your draft and situation label may be processed in the United States or other countries where our service providers operate. Those providers may use contractual or other safeguards where required by law."
+      ]
+    },
+    {
+      "heading": "Not medical, legal, or crisis advice",
+      "paragraphs": [
+        "The App provides motivational quotes and optional reflective perspective. It is not a medical device and does not provide medical, mental-health, legal, or therapeutic advice, diagnosis, or treatment. Perspectives generated by automated systems may be inaccurate or incomplete. Do not rely on the App instead of a qualified professional.",
+        "If you are in crisis or may harm yourself or others, contact emergency services or a crisis helpline in your country immediately. In the U.S., you can call or text 988 for the Suicide & Crisis Lifeline."
+      ]
+    },
+    {
+      "heading": "Changes to this policy",
+      "paragraphs": [
+        "We may update this policy from time to time. The \"Last updated\" date at the top will change when we do. Material changes may also be reflected in the App or App Store release notes where appropriate. Continued use after an update means you accept the revised policy, to the extent permitted by law."
       ]
     },
     {
       "heading": "Contact",
       "paragraphs": [
-        "For privacy questions, email {{supportEmail}} or use the contact information on the app store listing."
+        "For privacy questions or requests, email {{supportEmail}} (subject: \"Privacy\") or use the contact information on the App Store listing."
       ]
     }
   ]
